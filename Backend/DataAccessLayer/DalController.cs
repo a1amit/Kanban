@@ -35,7 +35,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 };
                 try
                 {
-
                     command.Parameters.Add(new SQLiteParameter(attributeName, attributeValue));
                     connection.Open();
                     res = command.ExecuteNonQuery();
@@ -49,7 +48,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Dispose();
                     connection.Close();
                 }
-
             }
 
             return res > 0;
@@ -75,9 +73,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     command.Dispose();
                     connection.Close();
-
                 }
-
             }
 
             return res > 0;
@@ -99,7 +95,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     while (dataReader.Read())
                     {
                         results.Add(ConvertReaderToObject(dataReader));
-
                     }
                 }
                 finally
@@ -112,7 +107,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Dispose();
                     connection.Close();
                 }
-
             }
 
             return results;
@@ -141,7 +135,6 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     command.Dispose();
                     connection.Close();
                 }
-
             }
 
             return res > 0;
@@ -154,7 +147,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
                 // command.CommandText = $"select * from {_tableName};";
-                command.CommandText = $"SELECT seq from sqlite_sequence where name = \"{ _tableName}\"";
+                command.CommandText = $"SELECT seq from sqlite_sequence where name = \"{_tableName}\"";
 
                 SQLiteDataReader dataReader = null;
                 try
@@ -180,6 +173,7 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Close();
                 }
             }
+
             return seq;
             // return 100;
         }
@@ -192,9 +186,9 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 var command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {_tableName}; UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME=\"{_tableName}\";"
+                    CommandText =
+                        $"delete from {_tableName}; UPDATE SQLITE_SEQUENCE SET SEQ=0 WHERE NAME=\"{_tableName}\";"
                     // CommandText = $"delete from {_tableName};"
-
                 };
                 try
                 {
@@ -207,8 +201,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Close();
                 }
             }
+
             return res > 0;
         }
     }
 }
-
