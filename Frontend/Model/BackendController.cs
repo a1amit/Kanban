@@ -33,8 +33,6 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
-
-            // return new UserModel(this, username);
             return response;
         }
 
@@ -56,8 +54,6 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
-
-            // return new UserModel(this, username);
             return response;
         }
 
@@ -68,8 +64,6 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
-
-            // return new UserModel(this, username);
             return response;
         }
 
@@ -80,8 +74,6 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
-
-            // return new UserModel(this, username);
             return response;
         }
 
@@ -92,9 +84,22 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
-        
-            // return new UserModel(this, username);
             return response;
         }
+
+        /*
+         * newly added in testing phase
+         */
+        public Response<string> AddBoard(string email, string boardName)
+        {
+            Response<string> response = JsonController<string>.fromJson(serviceFactory.boardService.createBoard(boardName, email));
+
+            if (response.ErrorMessage != null)
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+            return response;
+        }
+
     }
 }

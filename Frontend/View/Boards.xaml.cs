@@ -26,31 +26,48 @@ namespace Frontend.View
     /// </summary>
     public partial class Boards : Window
     {
-        private BoardsViewModel viewModel;
+        private BoardsViewModel boardsViewModel;
 
-        public Boards(UserModel u)
+        public Boards(UserModel userModel)
         {
             InitializeComponent();
-            this.viewModel = new BoardsViewModel(u);
-            this.DataContext = viewModel;
+            this.boardsViewModel = new BoardsViewModel(userModel);
+            this.DataContext = boardsViewModel;
         }
 
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Logout_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.logout();
+            boardsViewModel.Logout();
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             this.Close();
         }
 
+        private void addBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var addBoardWindow = new AddBoardWindow();
+            if (addBoardWindow.ShowDialog() == true)
+            {
+                Response<string> response = boardsViewModel.AddBoard(addBoardWindow.BoardName);
+                string returnValue = (string)response.ReturnValue;
+
+                if (response.ErrorMessage == null)
+                {
+                    MessageBox.Show("Added a new board successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // MainWindow mainWindow = new MainWindow();
-            
-
-            ViewTasks viewTasks = new ViewTasks(viewModel.UserModel, viewModel.SelectedBoard);
+            ViewTasks viewTasks = new ViewTasks(boardsViewModel.UserModel, boardsViewModel.SelectedBoard);
             viewTasks.Show();
             this.Close();
         }

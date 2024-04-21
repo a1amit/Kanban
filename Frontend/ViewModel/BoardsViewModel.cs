@@ -15,7 +15,6 @@ namespace Frontend.ViewModel
 
         public BackendController controller;
 
-        // public BoardModel Board { get; private set; }
         public UserModel User { get; private set; }
 
         private string email;
@@ -36,8 +35,6 @@ namespace Frontend.ViewModel
             set
             {
                 selectedBoard = value;
-                // EnableForward = value != null;
-                // RaisePropertyChanged("SelectedTask");
             }
         }
 
@@ -50,7 +47,7 @@ namespace Frontend.ViewModel
             User = user;
         }
 
-        public Response<string> logout()
+        public Response<string> Logout()
         {
             try
             {
@@ -62,10 +59,18 @@ namespace Frontend.ViewModel
                 return new Response<string>(e.Message, null);
             }
         }
+        public Response<string> AddBoard(string boardName)
+        {
+            try
+            {
+                return controller.AddBoard(UserModel.Email, boardName);
+            }
+            catch (Exception e)
+            {
+                return new Response<string>(e.Message, null);
+            }
+        }
 
-        // public viewBoard()
-        // {
-        //
-        // }
+
     }
 }

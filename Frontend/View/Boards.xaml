@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:Frontend.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:BoardsViewModel}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewmodel="clr-namespace:Frontend.ViewModel"
+        d:DataContext="{d:DesignInstance Type=viewmodel:BoardsViewModel}"
         mc:Ignorable="d"
         Title="BoardView" Height="800" Width="800"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -11,9 +13,6 @@
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
-
-
-
 
 
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
@@ -31,40 +30,44 @@
 
                         </StackPanel>
 
+                        <Button x:Name="btn_addBoard" ToolTip="Add Board" Content="Add Board"
+                                Click="addBoard_Click" />
+
                         <Button x:Name="btn_logout" ToolTip="close Application" Content="Logout"
-                                Click="Button_Click" />
+                                Click="Logout_Click" />
+
+
                     </StackPanel>
 
                 </materialDesign:PopupBox>
-                <materialDesign:PackIcon Kind="AccountCircle" Height="61" Width="67" RenderTransformOrigin="0.496,-0.417" />
-                <Label Content="{Binding Email, Mode=OneTime}"/>
+                <materialDesign:PackIcon Kind="AccountCircle" Height="61" Width="67"
+                                         RenderTransformOrigin="0.496,-0.417" />
+                <Label Content="{Binding Email, Mode=OneTime}" />
                 <Label HorizontalAlignment="Center" FontSize="28" FontWeight="Bold"
-                           Content="{Binding Title, Mode=OneTime}"/>
+                       Content="{Binding Title, Mode=OneTime}" />
                 <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
                            Text="Enter a board by double clicking:" />
-                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" />
 
 
-                <ListBox Margin="0 50 0 0" 
-                         ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}" 
-                         HorizontalAlignment="Left"   d:ItemsSource="{d:SampleData ItemCount=1}" 
-                         SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}" 
+                <ListBox Margin="0 50 0 0"
+                         ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}"
+                         HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=1}"
+                         SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
                          MouseDoubleClick="ListBox_MouseDoubleClick"
                          materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="552" Width="746"
                          materialDesign:ButtonAssist.CornerRadius="10"
-                         FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}" 
-                         Background="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}" 
-                         BorderBrush="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}" 
-                         Foreground="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}" 
+                         FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}"
+                         Background="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
+                         BorderBrush="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
+                         Foreground="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
                          OpacityMask="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-
-
 
 
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical" >
-                                <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}"  />
+                            <StackPanel Orientation="Vertical">
+                                <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}" />
                             </StackPanel>
 
                         </DataTemplate>
@@ -74,9 +77,7 @@
                 </ListBox>
 
 
-
             </StackPanel>
-
 
 
         </materialDesign:DialogHost>

@@ -31,26 +31,24 @@ namespace Frontend
         {
             InitializeComponent();
             this.DataContext = new MainViewModel();
-            this.viewModel = (MainViewModel) DataContext;
+            this.viewModel = (MainViewModel)DataContext;
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            Response<string> userModel = viewModel.Login();
-            string returnValue = (string)userModel.ReturnValue;
-            if (userModel.ErrorMessage == null)
+            Response<string> loginResponse = viewModel.Login();
+            string returnValue = (string)loginResponse.ReturnValue;
+            if (loginResponse.ErrorMessage == null)
             {
-                // UserModel u = new UserModel(viewModel.Controller,(string)(userModel.ReturnValue));
-                UserModel u = new UserModel(viewModel.Controller, returnValue);
+                UserModel userModel = new UserModel(viewModel.Controller, returnValue);
 
-                Boards boardView = new Boards(u);
+                Boards boardView = new Boards(userModel);
                 boardView.Show();
                 this.Close();
             }
             else
             {
-                MessageBox.Show(userModel.ErrorMessage, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                MessageBox.Show(loginResponse.ErrorMessage, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -60,7 +58,6 @@ namespace Frontend
             if (response.ErrorMessage != null)
             {
                 MessageBox.Show(response.ErrorMessage, "Alert", MessageBoxButton.OK, MessageBoxImage.Information);
-
             }
             else
             {

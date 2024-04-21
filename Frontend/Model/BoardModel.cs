@@ -48,12 +48,6 @@ namespace Frontend.Model
             List<Task> doneList = (List<Task>)(bc.getColumn(user.Email, this.name, 2).ReturnValue);
             done = new ObservableCollection<TaskModel>(doneList.
                 Select((c, i) => new TaskModel(bc, doneList[i].title, doneList[i].Description, doneList[i].DueDate, doneList[i].Assignie)));
-
-
-            // BoardsIds = new ObservableCollection<IntModel>();
-            // IntModel model = new IntModel(bc, 100);
-            // BoardsIds.Add(model);
-            // boardIds = (List<int>)(bc.getBoards(user.Email).ReturnValue);
         }
     }
 }
