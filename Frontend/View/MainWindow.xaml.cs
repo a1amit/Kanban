@@ -100,5 +100,10 @@ namespace Frontend
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+
+        private void PasswordTxtBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

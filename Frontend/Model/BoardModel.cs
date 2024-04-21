@@ -12,8 +12,6 @@ namespace Frontend.Model
     public class BoardModel : NotifiableModelObject
     {
         private UserModel user;
-        // public ObservableCollection<IntModel> BoardsIds { get; set; }
-        // public int Id { get; set; }
 
         private ObservableCollection<TaskModel> backlog;
         public ObservableCollection<TaskModel> Backlog { get { return backlog; } set { backlog = value; } }
@@ -31,11 +29,6 @@ namespace Frontend.Model
         {
             this.user = UserModel;
             this.name = boardName;
-            // Id=1000;
-
-            // List<int> list = (List<int>)(bc.getBoards(user.Email).ReturnValue);
-            // BoardsIds = new ObservableCollection<IntModel>(list.
-            // Select((c, i) => new IntModel(bc, list[i])));
 
             List<Task> backlogList = (List<Task>)(bc.getColumn(user.Email, this.name, 0).ReturnValue);
             backlog = new ObservableCollection<TaskModel>(backlogList.

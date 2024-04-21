@@ -360,10 +360,17 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             //adding the boards of every user
             foreach ((int boardId, int memberId) entry in boardsMembers)
             {
-                Board board = boards[entry.boardId];
-                User user = userController.getUser(entry.memberId);
-                user.getBoardListById().Add(board.Id, board);
-                user.getBoardListByName().Add(board.Name, board);
+                if (boards.ContainsKey(entry.boardId))
+                {
+                    Board board = boards[entry.boardId];
+                    User user = userController.getUser(entry.memberId);
+                    user.getBoardListById().Add(board.Id, board);
+                    user.getBoardListByName().Add(board.Name, board);
+                }
+                else
+                {
+                    // do nothing board doesn't exist
+                }
             }
 
             //loading all tasks from db

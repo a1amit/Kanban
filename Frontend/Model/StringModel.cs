@@ -16,7 +16,6 @@ namespace Frontend.Model
             set
             {
                 this.name = value;
-                // RaisePropertyChanged("id");
             }
         }
 
