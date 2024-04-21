@@ -70,10 +70,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <materialDesign:PopupBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,-7,759"
+        <materialDesign:PopupBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,0,0"
                                  PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Height="25">
-        <Button Grid.Column="3" x:Name="btn_previous" ToolTip="close Application" Content="Previous Page"
-                Click="PreviousPage_Click" />
+            <Button Grid.Column="3" x:Name="btn_previous" ToolTip="close Application" Content="Previous Page"
+                    Click="PreviousPage_Click" />
         </materialDesign:PopupBox>
     </Grid>
 
