@@ -37,7 +37,6 @@ namespace Frontend.View
         }
 
 
-
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             boardsViewModel.Logout();
@@ -56,7 +55,8 @@ namespace Frontend.View
 
                 if (response.ErrorMessage == null)
                 {
-                    MessageBox.Show("Added a new board successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Added a new board successfully", "Success", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     boardsViewModel.UserModel.RefreshBoards();
                 }
                 else
@@ -64,14 +64,6 @@ namespace Frontend.View
                     MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-        }
-
-
-        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ViewTasks viewTasks = new ViewTasks(boardsViewModel.UserModel, boardsViewModel.SelectedBoard);
-            viewTasks.Show();
-            this.Close();
         }
 
 
@@ -83,22 +75,51 @@ namespace Frontend.View
             // Get the ContextMenu to which the menuItem belongs
             var contextMenu = (ContextMenu)menuItem.Parent;
 
-            // Find the textBox
-            var textBox = (TextBox)contextMenu.PlacementTarget;
+            // Find the ListBoxItem
+            var listBoxItem = contextMenu.PlacementTarget as ListBoxItem;
 
-            // Get the BoardModel associated with the textBox
-            var boardModel = (BoardModel)textBox.DataContext;
+            // If the PlacementTarget is not a ListBoxItem, find the parent ListBoxItem
+            if (listBoxItem == null)
+            {
+                var parent = VisualTreeHelper.GetParent(contextMenu.PlacementTarget as DependencyObject);
+                while (!(parent is ListBoxItem))
+                {
+                    parent = VisualTreeHelper.GetParent(parent);
+                }
+
+                listBoxItem = parent as ListBoxItem;
+            }
+
+            // Get the BoardModel associated with the listBoxItem
+            var boardModel = (BoardModel)listBoxItem.DataContext;
 
             // Call the method to remove the board
-            //boardsViewModel.RemoveBoard(boardModel.Name);
+            Response<string> response = boardsViewModel.RemoveBoard(boardModel.Name);
+            string returnValue = (string)response.ReturnValue;
+            if (response.ErrorMessage == null)
+            {
+                MessageBox.Show("Removed The Board Successfully", "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                boardsViewModel.UserModel.RefreshBoards();
+            }
+            else
+            {
+                MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
+            if (boardsViewModel.SelectedBoard != null)
+            {
+                ViewTasks viewTasks = new ViewTasks(boardsViewModel.UserModel, boardsViewModel.SelectedBoard);
+                viewTasks.Show();
+                this.Close();
+            }
+            else
+            {
+                // do nothing since no item was clicked on 
+            }
         }
     }
 }

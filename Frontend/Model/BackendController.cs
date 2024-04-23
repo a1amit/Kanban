@@ -101,5 +101,16 @@ namespace Frontend.Model
             return response;
         }
 
+        public Response<string> RemoveBoard(string email, string boardName)
+        {
+            Response<string> response = JsonController<string>.fromJson(serviceFactory.boardService.removeBoard(email, boardName));
+
+            if (response.ErrorMessage != null)
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+            return response;
+        }
+
     }
 }

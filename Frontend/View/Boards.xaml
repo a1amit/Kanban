@@ -62,7 +62,7 @@
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
                                     <ContextMenu>
-                                        <MenuItem Header="Remove Board" Click="RemoveBoard_Click"/>
+                                        <MenuItem Header="Remove Board" Click="RemoveBoard_Click" />
                                     </ContextMenu>
                                 </Setter.Value>
                             </Setter>
@@ -72,7 +72,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
-                                <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}"  Foreground="Black"/>
+                                <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}"
+                                         Foreground="Black" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

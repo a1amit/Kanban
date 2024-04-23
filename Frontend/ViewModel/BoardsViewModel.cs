@@ -72,5 +72,19 @@ namespace Frontend.ViewModel
                 return new Response<string>(e.Message, null);
             }
         }
+
+
+        public Response<string> RemoveBoard(string boardName)
+        {
+            try
+            {
+                return controller.RemoveBoard(UserModel.Email, boardName);
+            }
+            catch (Exception e)
+            {
+                return new Response<string>(e.Message, null);
+            }
+        }
+
     }
 }
