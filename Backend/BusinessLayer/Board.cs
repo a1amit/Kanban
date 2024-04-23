@@ -13,18 +13,21 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public const int UNLIMITED = -1;
 
         private string name;
+
         public string Name
         {
             get { return name; }
         }
 
         private readonly int id;
+
         public int Id
         {
             get { return id; }
         }
 
         private int owner;
+
         public int Owner
         {
             get { return owner; }
@@ -32,6 +35,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         private HashSet<string> memeberList; // each board holds its members
+
         public HashSet<string> MemeberList
         {
             get { return memeberList; }
@@ -42,12 +46,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public int LimitDone { get; set; }
 
         public Dictionary<string, List<Task>> columns { get; } // dictionary <column name, tasks list>
-        public readonly Dictionary<int, string> columnsId = new Dictionary<int, string> // dictionary< columnsId, ColumnsTitle>
-        {
-            { 0, "backlog" },
-            { 1, "in progress" },
-            { 2, "done" }
-        };
+
+        public readonly Dictionary<int, string> columnsId =
+            new Dictionary<int, string> // dictionary< columnsId, ColumnsTitle>
+            {
+                { 0, "backlog" },
+                { 1, "in progress" },
+                { 2, "done" }
+            };
 
         public Board(String boardName, int id)
         {
@@ -58,11 +64,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             columns = new Dictionary<string, List<Task>>();
             initColumns();
-            
+
             this.LimitBacklog = UNLIMITED;
             this.limitInProgress = UNLIMITED;
             this.LimitDone = UNLIMITED;
-
         }
 
         public void initColumns()
@@ -111,7 +116,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 LimitDone = newLimit;
             }
-            
         }
 
         public List<Task> getColumn(int id)
@@ -166,6 +170,5 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new Exception(columnName + "is invalid");
             }
         }
-
     }
 }

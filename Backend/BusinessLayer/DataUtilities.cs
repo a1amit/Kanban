@@ -24,8 +24,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             List<BoardDTO> boardsDtos = boardDalController.SelectAllBoards();
             foreach (BoardDTO boardDTO in boardsDtos)
             {
-                boardsLoaded.Add(boardDTO.id, new Board(boardDTO.BoardName, boardDTO.id));
+                Board boardToAdd = new Board(boardDTO.BoardName, boardDTO.id);
+                boardToAdd.Owner = boardDTO.BoardOwnerId;
+                boardsLoaded.Add(boardDTO.id, boardToAdd);
             }
+
             return boardsLoaded;
         }
 
@@ -40,8 +43,10 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             List<TaskDTO> tasksDTOs = taskDalController.SelectAllTasks();
             foreach (TaskDTO taskDto in tasksDTOs)
             {
-                tasksLoaded.Add(new Task(taskDto.Title, taskDto.Description, taskDto.DueDate, taskDto.id, taskDto.BoardId, taskDto.ColumnOrdinal, taskDto.Assignee));
+                tasksLoaded.Add(new Task(taskDto.Title, taskDto.Description, taskDto.DueDate, taskDto.id,
+                    taskDto.BoardId, taskDto.ColumnOrdinal, taskDto.Assignee));
             }
+
             return tasksLoaded;
         }
 
@@ -50,9 +55,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="userDalController">// the users dal controller</param>
         /// <returns>dictionary of [dict of [email, User], dict of [userId, User]]</returns>
-        internal static Dictionary<Dictionary<string, User>, Dictionary<int, User>> loadData(UserDalController userDalController)
+        internal static Dictionary<Dictionary<string, User>, Dictionary<int, User>> loadData(
+            UserDalController userDalController)
         {
-            Dictionary<Dictionary<string, User>, Dictionary<int, User>> returnValue = new Dictionary<Dictionary<string, User>, Dictionary<int, User>>();
+            Dictionary<Dictionary<string, User>, Dictionary<int, User>> returnValue =
+                new Dictionary<Dictionary<string, User>, Dictionary<int, User>>();
             Dictionary<string, User> userByName = new Dictionary<string, User>();
             Dictionary<int, User> userById = new Dictionary<int, User>();
             List<UserDTO> userDtos = userDalController.SelectAllUsers();
@@ -62,7 +69,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 userByName.Add(userDto.Email, user);
                 userById.Add(userDto.id, user);
             }
-            returnValue.Add(userByName,userById);
+
+            returnValue.Add(userByName, userById);
             return returnValue;
         }
 
@@ -71,7 +79,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// </summary>
         /// <param name="boardsMembersDalController">// the board members dal controller</param>
         /// <returns>list of tuple (board_id, member_id)</returns>
-        internal static List<(int boardId, int memberId)> loadData(BoardsMembersDalController boardsMembersDalController)
+        internal static List<(int boardId, int memberId)> loadData(
+            BoardsMembersDalController boardsMembersDalController)
         {
             List<(int boardId, int memberId)> boardsMembers = new List<(int boardId, int memberId)>();
             List<BoardsMembersDTO> BoardsMembersDtos = boardsMembersDalController.SelectAllBoardsMembersDtos();
@@ -79,6 +88,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 boardsMembers.Add((boardMembersDto.BoardId, boardMembersDto.MemberID));
             }
+
             return boardsMembers;
         }
     }

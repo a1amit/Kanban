@@ -277,7 +277,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             if (board.getColumn(columnOrdinal).Count > limit)
             {
                 throw new Exception("there are already too many tasks in this column");
-            } 
+            }
 
             board.setColumnLimit(columnOrdinal, limit);
             // boardDalController.Update(board.Id, board.columnsId[columnOrdinal], limit);

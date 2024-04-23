@@ -66,35 +66,10 @@ namespace Frontend.View
             }
         }
 
-
         private void RemoveBoard_Click(object sender, RoutedEventArgs e)
         {
-            // Get the clicked MenuItem
-            var menuItem = (MenuItem)sender;
-
-            // Get the ContextMenu to which the menuItem belongs
-            var contextMenu = (ContextMenu)menuItem.Parent;
-
-            // Find the ListBoxItem
-            var listBoxItem = contextMenu.PlacementTarget as ListBoxItem;
-
-            // If the PlacementTarget is not a ListBoxItem, find the parent ListBoxItem
-            if (listBoxItem == null)
-            {
-                var parent = VisualTreeHelper.GetParent(contextMenu.PlacementTarget as DependencyObject);
-                while (!(parent is ListBoxItem))
-                {
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
-
-                listBoxItem = parent as ListBoxItem;
-            }
-
-            // Get the BoardModel associated with the listBoxItem
-            var boardModel = (BoardModel)listBoxItem.DataContext;
-
             // Call the method to remove the board
-            Response<string> response = boardsViewModel.RemoveBoard(boardModel.Name);
+            Response<string> response = boardsViewModel.RemoveBoard(boardsViewModel.SelectedBoard.Name);
             string returnValue = (string)response.ReturnValue;
             if (response.ErrorMessage == null)
             {

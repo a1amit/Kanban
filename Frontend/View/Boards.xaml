@@ -48,7 +48,7 @@
                          ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}"
                          HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=1}"
                          SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
-                         MouseDoubleClick="ListBox_MouseDoubleClick"
+                         MouseDoubleClick="RemoveBoard_Click"
                          materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="552" Width="746"
                          materialDesign:ButtonAssist.CornerRadius="10"
                          FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}"
@@ -74,6 +74,13 @@
                             <StackPanel Orientation="Vertical">
                                 <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}"
                                          Foreground="Black" />
+                                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+                                                         PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                                    <StackPanel>
+                                        <Button x:Name="btn_removeBoard" ToolTip="Remove Board" Content="Remove Board"
+                                                Click="RemoveBoard_Click" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
