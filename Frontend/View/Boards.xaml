@@ -48,7 +48,7 @@
                          ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}"
                          HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=1}"
                          SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
-                         MouseDoubleClick="RemoveBoard_Click"
+                         MouseDoubleClick="ListBox_MouseDoubleClick"
                          materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="552" Width="746"
                          materialDesign:ButtonAssist.CornerRadius="10"
                          FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}"
