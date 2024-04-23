@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,6 +57,7 @@ namespace Frontend.View
                 if (response.ErrorMessage == null)
                 {
                     MessageBox.Show("Added a new board successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    boardsViewModel.UserModel.RefreshBoards();
                 }
                 else
                 {
