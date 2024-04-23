@@ -75,6 +75,26 @@ namespace Frontend.View
         }
 
 
+        private void RemoveBoard_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the clicked MenuItem
+            var menuItem = (MenuItem)sender;
+
+            // Get the ContextMenu to which the menuItem belongs
+            var contextMenu = (ContextMenu)menuItem.Parent;
+
+            // Find the textBox
+            var textBox = (TextBox)contextMenu.PlacementTarget;
+
+            // Get the BoardModel associated with the textBox
+            var boardModel = (BoardModel)textBox.DataContext;
+
+            // Call the method to remove the board
+            //boardsViewModel.RemoveBoard(boardModel.Name);
+        }
+
+
+
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
