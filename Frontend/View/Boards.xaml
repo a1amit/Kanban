@@ -14,79 +14,77 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
 
+
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
                          materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True">
 
-            <StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
 
-                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
-                                         PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
-                    <StackPanel>
-                        <StackPanel Margin="16 10 0 6" Orientation="Horizontal"
-                                    HorizontalAlignment="Center">
+                    <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+                                             PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                        <StackPanel>
+                            <StackPanel Margin="16 10 0 6" Orientation="Horizontal"
+                                        HorizontalAlignment="Center">
+
+
+                            </StackPanel>
+
+                            <Button x:Name="btn_addBoard" ToolTip="Add Board" Content="Add Board"
+                                    Click="addBoard_Click" />
+
+                            <Button x:Name="btn_logout" ToolTip="close Application" Content="Logout"
+                                    Click="Logout_Click" />
+
+
                         </StackPanel>
 
-                        <Button x:Name="btn_addBoard" ToolTip="Add Board" Content="Add Board"
-                                Click="addBoard_Click" />
+                    </materialDesign:PopupBox>
+                    <materialDesign:PackIcon Kind="AccountCircle" Height="61" Width="67"
+                                             RenderTransformOrigin="0.496,-0.417" />
+                    <Label Content="{Binding Email, Mode=OneTime}" />
+                    <Label HorizontalAlignment="Center" FontSize="28" FontWeight="Bold"
+                           Content="{Binding Title, Mode=OneTime}" />
+                    <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
+                               Text="Enter a board by double clicking:" />
 
-                        <Button x:Name="btn_logout" ToolTip="close Application" Content="Logout"
-                                Click="Logout_Click" />
-                    </StackPanel>
-                </materialDesign:PopupBox>
 
-                <materialDesign:PackIcon Kind="AccountCircle" Height="61" Width="67"
-                                         RenderTransformOrigin="0.496,-0.417" />
-                <Label Content="{Binding Email, Mode=OneTime}" />
-                <Label HorizontalAlignment="Center" FontSize="28" FontWeight="Bold"
-                       Content="{Binding Title, Mode=OneTime}" />
-                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
-                           Text="Enter a board by double clicking:" />
-                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                    <ListBox Margin="0 50 0 0"
+                             ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}"
+                             HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=1}"
+                             SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                             MouseDoubleClick="ListBox_MouseDoubleClick"
+                             materialDesign:ShadowAssist.ShadowDepth="Depth0" Width="746"
+                             materialDesign:ButtonAssist.CornerRadius="10"
+                             FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}"
+                             Background="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
+                             BorderBrush="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
+                             Foreground="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
+                             OpacityMask="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
 
-                <ListBox Margin="0 50 0 0"
-                         ItemsSource="{Binding Path=User.BoardsNames, Mode=TwoWay}"
-                         HorizontalAlignment="Left" d:ItemsSource="{d:SampleData ItemCount=1}"
-                         SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
-                         MouseDoubleClick="ListBox_MouseDoubleClick"
-                         materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="552" Width="746"
-                         materialDesign:ButtonAssist.CornerRadius="10"
-                         FontSize="24" Style="{DynamicResource MaterialDesignNavigationAccentListBox}"
-                         Background="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
-                         BorderBrush="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
-                         Foreground="{DynamicResource MaterialDesignTextFieldBoxDisabledBackground}"
-                         OpacityMask="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}">
+                                        <TextBox.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Remove Board" Click="DeleteBoard_Click"/>
+                                            </ContextMenu>
+                                        </TextBox.ContextMenu>
+                                    </TextBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
 
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem Header="Remove Board" Click="RemoveBoard_Click" />
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
+                    </ListBox>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBox Text="{Binding Path=Name, Mode=TwoWay}" BorderBrush="{x:Null}"
-                                         Foreground="Black" />
-                                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
-                                                         PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
-                                    <StackPanel>
-                                        <Button x:Name="btn_removeBoard" ToolTip="Remove Board" Content="Remove Board"
-                                                Click="RemoveBoard_Click" />
-                                    </StackPanel>
-                                </materialDesign:PopupBox>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
 
-                </ListBox>
-            </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+
         </materialDesign:DialogHost>
+
     </materialDesign:Card>
+
 </Window>

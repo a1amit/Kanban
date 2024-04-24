@@ -66,20 +66,24 @@ namespace Frontend.View
             }
         }
 
-        private void RemoveBoard_Click(object sender, RoutedEventArgs e)
+        private void DeleteBoard_Click(object sender, RoutedEventArgs e)
         {
-            // Call the method to remove the board
-            Response<string> response = boardsViewModel.RemoveBoard(boardsViewModel.SelectedBoard.Name);
-            string returnValue = (string)response.ReturnValue;
-            if (response.ErrorMessage == null)
+            if (boardsViewModel.SelectedBoard != null)
             {
-                MessageBox.Show("Removed The Board Successfully", "Success", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                boardsViewModel.UserModel.RefreshBoards();
-            }
-            else
-            {
-                MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Call the method to remove the board
+                string boardName = boardsViewModel.SelectedBoard.Name;
+                Response<string> response = boardsViewModel.RemoveBoard(boardName);
+                string returnValue = (string)response.ReturnValue;
+                if (response.ErrorMessage == null)
+                {
+                    MessageBox.Show("Deleted " + boardName + " Successfully", "Success", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    boardsViewModel.UserModel.RefreshBoards();
+                }
+                else
+                {
+                    MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 

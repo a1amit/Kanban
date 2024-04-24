@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Frontend.Model;
 using Frontend.View;
 using IntroSE.Kanban.Backend.ServiceLayer;
