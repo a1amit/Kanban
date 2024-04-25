@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Frontend.Model;
-using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.ServiceLayer;
 
 namespace Frontend.ViewModel
 {
@@ -14,20 +13,31 @@ namespace Frontend.ViewModel
 
         private UserModel userModel;
         public UserModel UserModel { get; set; }
-        
-        // private BoardModel boardModel;
-        // public BoardModel BoardModel { get; private set; }
 
         public BoardModel Board { get; private set; }
-        public ViewTasksViewModel(UserModel u, BoardModel b)
+
+        public ViewTasksViewModel(UserModel userModel, BoardModel boardModel)
         {
-            this.controller = u.Controller;
-            this.UserModel = u;
-            // this.Board = b;
-            // Title = "Boards of " + user.Email;
-            // Board = user.getBoards();
-            Board = b;
+            this.controller = userModel.Controller;
+            this.UserModel = userModel;
+            Board = boardModel;
         }
 
+        public Response<string> AddTask(string taskTitle, string TaskDescription, DateTime taskDueDate)
+        {
+            try
+            {
+                return controller.addTask(taskTitle, TaskDescription, taskDueDate, UserModel.Email, Board.Name);
+            }
+            catch (Exception e)
+            {
+                return new Response<string>(e.Message, null);
+            }
+        }
+
+        public void RefreshTasks()
+        {
+            Board.RefreshTasks(controller);
+        }
     }
 }

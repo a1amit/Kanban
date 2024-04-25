@@ -82,7 +82,10 @@
 
         <materialDesign:PopupBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,0,0"
                                  PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Height="25">
-            <Button x:Name="btn_previous" ToolTip="Previous Page" Content="Previous Page" Click="PreviousPage_Click" />
+            <StackPanel Orientation="Vertical">
+                <Button ToolTip="Add New Task" Content="Add New Task" Click="AddNewTask_Click" />
+                <Button x:Name="btn_previous" ToolTip="Previous Page" Content="Previous Page" Click="PreviousPage_Click" />
+            </StackPanel>
         </materialDesign:PopupBox>
     </Grid>
 </Window>

@@ -51,7 +51,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             bool successInsert = userDalController.Insert(new UserDTO(usersIdCount, email, password));
             if (!successInsert)
             {
-                throw new Exception("Problem occurred to add user: " + email + "  to DataBase");
+                throw new Exception("Problem occurred to addTask user: " + email + "  to DataBase");
             }
 
             User newUser = new User(email, password, usersIdCount);

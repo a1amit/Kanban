@@ -286,7 +286,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 foreach (Task task in l)
                 {
                     if (task.Assignie.Equals(currentUser
-                            .email)) // add task only if the user is the assignie of the task
+                            .email)) // addTask task only if the user is the assignie of the task
                     {
                         list.Add(task);
                     }

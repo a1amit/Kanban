@@ -27,18 +27,21 @@ namespace Frontend.Model
 
         public Response<string> Login(string username, string password)
         {
-            Response<string> response = JsonController<string>.fromJson(serviceFactory.userService.login(username, password));
-            
+            Response<string> response =
+                JsonController<string>.fromJson(serviceFactory.userService.login(username, password));
+
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
         public Response<string> Register(string username, string password)
         {
-            Response<string> response = JsonController<string>.fromJson(serviceFactory.userService.createUser(username, password));
+            Response<string> response =
+                JsonController<string>.fromJson(serviceFactory.userService.createUser(username, password));
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
@@ -54,36 +57,44 @@ namespace Frontend.Model
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
         public Response<List<int>> getBoards(string username)
         {
-            Response<List<int>> response = JsonController<List<int>>.fromJson(serviceFactory.userService.GetUserBoards(username));
+            Response<List<int>> response =
+                JsonController<List<int>>.fromJson(serviceFactory.userService.GetUserBoards(username));
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
         public Response<List<string>> getBoardsNames(string username)
         {
-            Response<List<string>> response = JsonController<List<string>>.fromJson(serviceFactory.userService.GetUserBoardsNames(username));
+            Response<List<string>> response =
+                JsonController<List<string>>.fromJson(serviceFactory.userService.GetUserBoardsNames(username));
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
         public Response<List<Task>> getColumn(string email, string boardName, int columnOrdinal)
         {
-            Response<List<Task>> response = JsonController<List<Task>>.fromJson(serviceFactory.boardService.getColumn(email, boardName, columnOrdinal));
+            Response<List<Task>> response =
+                JsonController<List<Task>>.fromJson(
+                    serviceFactory.boardService.getColumn(email, boardName, columnOrdinal));
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
@@ -92,25 +103,43 @@ namespace Frontend.Model
          */
         public Response<string> AddBoard(string email, string boardName)
         {
-            Response<string> response = JsonController<string>.fromJson(serviceFactory.boardService.createBoard(boardName, email));
+            Response<string> response =
+                JsonController<string>.fromJson(serviceFactory.boardService.createBoard(boardName, email));
 
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
         public Response<string> RemoveBoard(string email, string boardName)
         {
-            Response<string> response = JsonController<string>.fromJson(serviceFactory.boardService.removeBoard(email, boardName));
+            Response<string> response =
+                JsonController<string>.fromJson(serviceFactory.boardService.removeBoard(email, boardName));
 
             if (response.ErrorMessage != null)
             {
                 throw new Exception(response.ErrorMessage);
             }
+
             return response;
         }
 
+        public Response<string> addTask(string title, string description, DateTime dueTime, string email,
+            string boardName)
+        {
+            Response<string> response =
+                JsonController<string>.fromJson(
+                    serviceFactory.taskService.addTask(title, description, dueTime, boardName, email));
+
+            if (response.ErrorMessage != null)
+            {
+                throw new Exception(response.ErrorMessage);
+            }
+
+            return response;
+        }
     }
 }

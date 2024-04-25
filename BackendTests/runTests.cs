@@ -24,9 +24,9 @@ namespace BackendTests
             sf.dataService.DeleteData();
             sf.userService.createUser("olga@gmail.com", "123456Ab");
             sf.boardService.createBoard("board1", "olga@gmail.com");
-            sf.taskService.add("task1", "a", DateTime.Now, "board1", "olga@gmail.com");
-            sf.taskService.add("task2", "a", DateTime.Now, "board1", "olga@gmail.com");
-            sf.taskService.add("task3", "a", DateTime.Now, "board1", "olga@gmail.com");
+            sf.taskService.addTask("task1", "a", DateTime.Now, "board1", "olga@gmail.com");
+            sf.taskService.addTask("task2", "a", DateTime.Now, "board1", "olga@gmail.com");
+            sf.taskService.addTask("task3", "a", DateTime.Now, "board1", "olga@gmail.com");
             sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 1, "olga@gmail.com");
             sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 2, "olga@gmail.com");
             sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 3, "olga@gmail.com");
@@ -276,11 +276,11 @@ namespace BackendTests
             //
             //
             // Console.WriteLine("\n");
-            // Console.WriteLine("if the user managed to add board this should return: {} ");
+            // Console.WriteLine("if the user managed to addTask board this should return: {} ");
             // Console.WriteLine(gs.AddBoard("yonatna@gmail.com", "board1"));
             //
             // Console.WriteLine("\n");
-            // Console.WriteLine("if the user managed to add board this should return: {} ");
+            // Console.WriteLine("if the user managed to addTask board this should return: {} ");
             // Console.WriteLine(gs.AddBoard("yonatna@gmail.com", "board2"));
             //
             // Console.WriteLine("\n");
@@ -288,7 +288,7 @@ namespace BackendTests
             // Console.WriteLine(gs.JoinBoard("olga@gmail.com", 2));
             //
             // Console.WriteLine("\n");
-            // Console.WriteLine("if the user managed to add board this should return: {} ");
+            // Console.WriteLine("if the user managed to addTask board this should return: {} ");
             // Console.WriteLine(gs.JoinBoard("olga@gmail.com", 3));
 
             // Console.WriteLine(gs.Register("amit@gmail.com", "12345Ab"));

@@ -27,7 +27,7 @@ public class BoardService
         {
             email = email.ToLower();
             Board board = boardController.addBoard(boardName, email);
-            log.Info("Board: " + boardName + "was add by " + email);
+            log.Info("Board: " + boardName + "was addTask by " + email);
             return JsonController<string>.toJson(new Response<string>(null, null));
         }
         catch (Exception e)

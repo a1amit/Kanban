@@ -145,7 +145,7 @@
 //         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
 //         public string AddTask(string email, string boardName, string title, string description, DateTime dueDate)
 //         {
-//             return JsonController.toJson(serviceFactory.taskService.add(title, description, dueDate, boardName, email));
+//             return JsonController.toJson(serviceFactory.taskService.addTask(title, description, dueDate, boardName, email));
 //         }
 //
 //
@@ -350,7 +350,7 @@
 //         /// <returns>An empty response, unless an error occurs (see <see cref="GradingService"/>)</returns>
 //         public string TransferOwnership(string currentOwnerEmail, string newOwnerEmail, string boardName)
 //         {
-//             //todo: add owner as member
+//             //todo: addTask owner as member
 //             return JsonController.toJson(serviceFactory.boardService.transferOwnerShip(currentOwnerEmail, newOwnerEmail, boardName));
 //         }
 //     }

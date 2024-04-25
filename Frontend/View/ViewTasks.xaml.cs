@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Frontend.Model;
 using Frontend.ViewModel;
+using IntroSE.Kanban.Backend.BusinessLayer;
+using IntroSE.Kanban.Backend.ServiceLayer;
 
 namespace Frontend.View
 {
@@ -21,14 +23,14 @@ namespace Frontend.View
     /// </summary>
     public partial class ViewTasks : Window
     {
-        private ViewTasksViewModel viewModel;
+        private ViewTasksViewModel viewTasksViewModel;
         private UserModel userModel;
 
         public ViewTasks(UserModel userModel, BoardModel boardModel)
         {
             InitializeComponent();
-            this.viewModel = new ViewTasksViewModel(userModel, boardModel);
-            this.DataContext = viewModel;
+            this.viewTasksViewModel = new ViewTasksViewModel(userModel, boardModel);
+            this.DataContext = viewTasksViewModel;
             this.userModel = userModel;
         }
 
@@ -40,9 +42,27 @@ namespace Frontend.View
             this.Close();
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AddNewTask_Click(object sender, RoutedEventArgs e)
         {
+            var AddNewTaskWindow = new AddNewTaskWindow();
+            if (AddNewTaskWindow.ShowDialog() == true)
+            {
+                Response<string> response = viewTasksViewModel.AddTask(AddNewTaskWindow.TaskTitle,
+                    AddNewTaskWindow.TaskDescription,
+                    AddNewTaskWindow.TaskDueDate);
+                string returnValue = (string)response.ReturnValue;
 
+                if (response.ErrorMessage == null)
+                {
+                    MessageBox.Show("Added a new task successfully", "Success", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    viewTasksViewModel.RefreshTasks();
+                }
+                else
+                {
+                    MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

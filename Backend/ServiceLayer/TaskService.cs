@@ -25,13 +25,13 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /// <summary>
         /// This method creates and adds a new task. 
         /// </summary>
-        /// <param name="user">The username that wants to add a new task</param>
+        /// <param name="user">The username that wants to addTask a new task</param>
         /// <param name="title">The title of the new task</param>
         /// <param name="description">The description of the new task</param>
         /// <param name="dueTime">The dueDate of the new task</param>
         /// <param name="boardId">The boardId of the new task</param>
         /// <returns>creates a new task and adds it to the users task list</returns>
-        public string add(string title, string description, DateTime dueTime, string boardName, string email)
+        public string addTask(string title, string description, DateTime dueTime, string boardName, string email)
         {
             try
             {
