@@ -39,5 +39,10 @@ namespace Frontend.View
             boards.Show();
             this.Close();
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

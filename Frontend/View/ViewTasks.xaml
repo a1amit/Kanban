@@ -6,75 +6,83 @@
         xmlns:local="clr-namespace:Frontend.View"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="ViewTasks" Height="800" Width="800">
-
+        Title="Board View" Height="800" Width="800">
     <Grid>
-
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Column="0" Background="LightGray" Margin="10">
+            <Label Content="Backlog" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
+            <ListBox ItemsSource="{Binding Path=Board.Backlog, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}"
+                     Background="{DynamicResource MaterialDesignTextBoxBorder}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}"
+                                BorderThickness="1" Width="170" Margin="0 25 0 0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
 
-        <Label Grid.Column="0" Content="Backlog" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
-        <ListBox Grid.Column="0" ItemsSource="{Binding Path=Board.Backlog, Mode=TwoWay}"
-                 d:ItemsSource="{d:SampleData ItemCount=5}" 
-                 SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}" BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}" Background="{DynamicResource MaterialDesignTextBoxBorder}">
+        <StackPanel Grid.Column="1" Background="LightGray" Margin="10">
+            <Label Content="In Progress" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
+            <ListBox ItemsSource="{Binding Path=Board.InProgress, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     Background="{DynamicResource MaterialDesignTextBoxBorder}"
+                     BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource MaterialDesignDataGridRowHoverBackground}"
+                                BorderThickness="1" Width="170" Margin="0 25 0 0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}" BorderThickness="1" Width="170" Margin="0 25 0 0">
-                        <StackPanel Orientation="Vertical" >
-                            <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Label Grid.Column="1" Content="In Progress" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
-        <ListBox Grid.Column="1" ItemsSource="{Binding Path=Board.InProgress, Mode=TwoWay}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}" Background="{DynamicResource MaterialDesignTextBoxBorder}" BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="{DynamicResource MaterialDesignDataGridRowHoverBackground}" BorderThickness="1" Width="170" Margin ="0 25 0 0">
-                        <StackPanel Orientation="Vertical" >
-                            <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Label Grid.Column="2" Content="Done" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
-        <ListBox Grid.Column="2" ItemsSource="{Binding Path=Board.Done, Mode=TwoWay}" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}" Background="{DynamicResource MaterialDesignTextBoxBorder}" BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="{DynamicResource MaterialDesignBody}" BorderThickness="1" Width="170" Margin ="0 25 0 0" Background="{DynamicResource MaterialDesignDataGridRowHoverBackground}">
-                        <StackPanel Orientation="Vertical" >
-                            <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-                            <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="white"/>
-
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <StackPanel Grid.Column="2" Background="LightGray" Margin="10">
+            <Label Content="Done" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
+            <ListBox ItemsSource="{Binding Path=Board.Done, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     Background="{DynamicResource MaterialDesignTextBoxBorder}"
+                     BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource MaterialDesignBody}" BorderThickness="1" Width="170"
+                                Margin="0 25 0 0" Background="{DynamicResource MaterialDesignDataGridRowHoverBackground}">
+                            <StackPanel Orientation="Vertical">
+                                <TextBox Text="{Binding Path=Title, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Description, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=DueDate, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                                <TextBox Text="{Binding Path=Assignee, Mode=TwoWay}" BorderBrush="{x:Null}" Background="White" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
 
         <materialDesign:PopupBox Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,0,0"
                                  PlacementMode="TopAndAlignRightEdges" StaysOpen="False" Height="25">
-            <Button Grid.Column="3" x:Name="btn_previous" ToolTip="close Application" Content="Previous Page"
-                    Click="PreviousPage_Click" />
+            <Button x:Name="btn_previous" ToolTip="Previous Page" Content="Previous Page" Click="PreviousPage_Click" />
         </materialDesign:PopupBox>
     </Grid>
-
 </Window>
