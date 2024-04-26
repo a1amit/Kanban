@@ -64,5 +64,11 @@ namespace Frontend.View
                 }
             }
         }
+
+        private void ProgressTask_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

@@ -18,7 +18,6 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         {
             this.userController = serviceFactory.UserController;
             this.taskController = serviceFactory.TaskController;
-            // this.taskController = new TaskController(userController);
         }
 
 
