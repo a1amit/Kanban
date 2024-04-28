@@ -374,17 +374,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             User user = userController.getUserAndLogeddin(email); // use email to get the user
             Board board = user.hasBoardByName(boardName);
             TaskDTO taskDto = taskDalController.GetTaskByTitle(taskTitle);
-            Task task = new Task(taskDto.Title, taskDto.Description, taskDto.DueDate, taskDto.id,
-                taskDto.BoardId, taskDto.ColumnOrdinal, taskDto.Assignee);
+            Task task = board.findTaskById(taskDto.id, board.getColumnNumber(taskDto.ColumnOrdinal));
             task.columnOrdinal = taskDto.ColumnOrdinal;
-            int columnOrdinal = task.GetColumnOrdinal();
+            int currentColumnOrdianl = task.GetColumnOrdinal();
 
-            if (task.GetColumnOrdinal() > 2 || columnOrdinal < 0)
+            if (task.GetColumnOrdinal() > 2 || currentColumnOrdianl < 0)
             {
-                throw new Exception(columnOrdinal + " is invalid");
+                throw new Exception(currentColumnOrdianl + " is invalid");
             }
 
-            if (columnOrdinal == 2)
+            if (currentColumnOrdianl == 2)
             {
                 throw new Exception("cannot advance task from done");
             }
@@ -407,14 +406,11 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new Exception("next column is full");
             }
 
-            int oldColumnOrdinal = task.GetColumnOrdinal();
-            string newColumnOrdinal = board.getColumnName(board.getColumnNumber(task.columnOrdinal) + 1);
+            string newColumnOrdinal = board.getColumnName(currentColumnOrdianl + 1);
             task.columnOrdinal = newColumnOrdinal;
             int columnOrdinalAsNumber = task.GetColumnOrdinal();
-            List<Task> tasksList = board.getColumn(oldColumnOrdinal);
-            tasksList.Remove(task);
-            List<Task> newtasksList = board.getColumn(oldColumnOrdinal + 1);
-            newtasksList.Add(task);
+            board.getColumn(currentColumnOrdianl).Remove(task);
+            board.getColumn(currentColumnOrdianl + 1).Add(task);
             taskDalController.Advance(task.Id, newColumnOrdinal);
         }
 

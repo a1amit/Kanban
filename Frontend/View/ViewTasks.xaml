@@ -21,7 +21,7 @@
         <StackPanel Grid.Column="0" Background="LightBlue" Margin="10">
             <Label Content="Backlog" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
             <ListBox ItemsSource="{Binding Path=Board.Backlog, Mode=TwoWay}"
-                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
                      BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}"
                      Background="{DynamicResource MaterialDesignTextBoxBorder}"
                      ContextMenu="{StaticResource TaskContextMenu}">
@@ -48,7 +48,7 @@
         <StackPanel Grid.Column="1" Background="LightCyan" Margin="10">
             <Label Content="In Progress" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
             <ListBox ItemsSource="{Binding Path=Board.InProgress, Mode=TwoWay}"
-                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
                      Background="{DynamicResource MaterialDesignTextBoxBorder}"
                      BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}"
                      ContextMenu="{StaticResource TaskContextMenu}">
@@ -75,10 +75,9 @@
         <StackPanel Grid.Column="2" Background="LightSkyBlue" Margin="10">
             <Label Content="Done" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
             <ListBox ItemsSource="{Binding Path=Board.Done, Mode=TwoWay}"
-                     SelectedItem="{Binding Path=SelectedBoard, Mode=TwoWay}"
+                     SelectedItem="{Binding Path=SelectedTask, Mode=TwoWay}"
                      Background="{DynamicResource MaterialDesignTextBoxBorder}"
-                     BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}"
-                     ContextMenu="{StaticResource TaskContextMenu}">
+                     BorderBrush="{DynamicResource MaterialDesignTextAreaInactiveBorder}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="{DynamicResource MaterialDesignBody}" BorderThickness="1" Width="170"

@@ -341,7 +341,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             {
                 throw new Exception("invalid columnId");
             }
-
             Board board = user.hasBoardByName(boardName);
             return board.getColumn(columnId);
         }

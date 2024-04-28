@@ -154,7 +154,7 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         /**
          * the new changeState
          */
-        public string advanceTask(string email, string boardName, string taskTitle, int columnOrdinal)
+        public string advanceTask(string email, string boardName, string taskTitle)
         {
             try
             {

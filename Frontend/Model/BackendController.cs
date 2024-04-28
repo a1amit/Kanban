@@ -143,11 +143,11 @@ namespace Frontend.Model
         }
 
 
-        public Response<string> AdvanceTask(string email, string boardName, string taskTitle, int columnOrdinal)
+        public Response<string> AdvanceTask(string email, string boardName, string taskTitle)
         {
             Response<string> response =
                 JsonController<string>.fromJson(
-                    serviceFactory.taskService.advanceTask(email, boardName, taskTitle, columnOrdinal));
+                    serviceFactory.taskService.advanceTask(email, boardName, taskTitle));
 
             if (response.ErrorMessage != null)
             {

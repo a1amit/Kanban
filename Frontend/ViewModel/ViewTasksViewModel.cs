@@ -16,6 +16,19 @@ namespace Frontend.ViewModel
 
         public BoardModel Board { get; private set; }
 
+        private TaskModel selectedTask; // New property for selected task
+
+        public TaskModel SelectedTask
+        {
+            get { return selectedTask; }
+            set
+            {
+                selectedTask = value;
+                RaisePropertyChanged(nameof(SelectedTask));
+            }
+        }
+
+
         public ViewTasksViewModel(UserModel userModel, BoardModel boardModel)
         {
             this.controller = userModel.Controller;
@@ -39,8 +52,10 @@ namespace Frontend.ViewModel
         {
             try
             {
-                // return controller.AdvanceTask(UserModel.Email,Board.Name);
-                return new Response<string>();
+                string title = selectedTask.Title; // save title before removing from the collection
+                Response<string> response = controller.AdvanceTask(UserModel.Email, Board.Name, title);
+
+                return response;
             }
             catch (Exception e)
             {
