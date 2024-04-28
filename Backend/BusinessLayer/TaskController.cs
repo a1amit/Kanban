@@ -17,13 +17,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private int taskId;
-        private UserController uc;
+        private UserController userController;
 
         private TaskDalController taskDalController;
+
         public TaskController(ServiceFactory serviceFactory)
         {
             taskDalController = new TaskDalController();
-            this.uc = serviceFactory.UserController;
+            this.userController = serviceFactory.UserController;
             this.taskId = (int)taskDalController.getSeq() + 1;
         }
 
@@ -38,7 +39,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>the added task</returns>
         public Task addTask(string title, string description, DateTime dueTime, string boardName, string email)
         {
-            User user = uc.getUserAndLogeddin(email);
+            User user = userController.getUserAndLogeddin(email);
 
             if (!checkTitleValidity(title, email, boardName))
             {
@@ -61,16 +62,16 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
             Dictionary<string, Board> userBoardByName = user.getBoardListByName();
             Board boardbyName = userBoardByName[boardName]; //getting the needed board from list of user's boards
-            Task newTask = new Task(title, description, dueTime, taskId, boardbyName.Id,"backlog", Task.UNASSIGNED);
-            
+            Task newTask = new Task(title, description, dueTime, taskId, boardbyName.Id, "backlog", Task.UNASSIGNED);
+
             //adding to db
             taskDalController.Insert(new TaskDTO(taskId, title, description, boardbyName.Id,
                 newTask.CreationTime, dueTime, "backlog", newTask.Assignie));
             // boardsTasksContainDalController.Insert(new BoardsTasksContainDTO(boardbyName.Id, user.Id));
-            
-            taskId++; 
+
+            taskId++;
             boardbyName.columns["backlog"].Add(newTask);
-            
+
             return newTask;
         }
 
@@ -86,7 +87,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns></returns>
         public void editTitle(string email, string boardName, int columnOrdinal, int taskId, string title)
         {
-            User currentUser = uc.getUserAndLogeddin(email);
+            User currentUser = userController.getUserAndLogeddin(email);
             if (!checkTitleValidity(title, email, boardName))
             {
                 throw new Exception("user tried to either enter an empty title or a title with more than: " +
@@ -118,7 +119,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns></returns>
         public void editDueDate(string email, string boardName, int columnOrdinal, int taskId, DateTime dueTime)
         {
-            User user = uc.getUserAndLogeddin(email);
+            User user = userController.getUserAndLogeddin(email);
 
             Board board = user.hasBoardByName(boardName);
             Task task = findTaskById(board, taskId, columnOrdinal);
@@ -128,7 +129,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             }
 
             //updating in db
-            taskDalController.Update(taskId, "due_date" ,dueTime.ToString());
+            taskDalController.Update(taskId, "due_date", dueTime.ToString());
             task.DueDate = dueTime;
         }
 
@@ -144,7 +145,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns></returns>
         public void editDescription(string email, string boardName, int columnOrdinal, int taskId, string description)
         {
-            User user = uc.getUserAndLogeddin(email);
+            User user = userController.getUserAndLogeddin(email);
 
             if (!checkDescriptionValidity(description))
             {
@@ -161,8 +162,6 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             //updating in db
             taskDalController.Update(taskId, "description", description);
             task.Description = description;
-
-
         }
 
 
@@ -215,8 +214,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>true if string is valid, false otherwise</returns>
         private bool taskNameAlreadyExists(string email, string title, string boardName)
         {
-
-            User user = uc.getUser(email);
+            User user = userController.getUser(email);
             Board board = user.hasBoardByName(boardName);
 
             foreach (List<Task> list in board.columns.Values)
@@ -266,7 +264,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns>list of in progress task</returns>
         public List<Task> listTaskInProgress(string email)
         {
-            User currentUser = uc.getUserAndLogeddin(email);
+            User currentUser = userController.getUserAndLogeddin(email);
             Dictionary<string, Board> boardListByName = currentUser.getBoardListByName();
             if (!boardListByName.Any())
             {
@@ -308,11 +306,12 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         /// <returns></returns>
         public void assignTask(string email, string boardName, int columnOrdinal, int taskId, string asignee)
         {
-            Board board = uc.getUserAndLogeddin(email).getBoardListByName()[boardName];
-            if (!uc.userExists(asignee))
+            Board board = userController.getUserAndLogeddin(email).getBoardListByName()[boardName];
+            if (!userController.userExists(asignee))
             {
                 throw new Exception("user assignee with email " + asignee + " doesn't exist");
             }
+
             Task task = board.findTaskById(taskId, columnOrdinal);
             if (task.Assignie == "unassigned" || email.Equals(task.Assignie))
             {
@@ -341,7 +340,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
                 throw new Exception("cannot advance task from done");
             }
 
-            User user = uc.getUserAndLogeddin(email); //user is logged in
+            User user = userController.getUserAndLogeddin(email); //user is logged in
             bool found = false;
 
             Board board = user.hasBoardByName(boardName);
@@ -365,8 +364,60 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             List<Task> newtasksList = board.getColumn(columnOrdinal + 1);
             newtasksList.Add(task);
             taskDalController.Advance(taskId, newColumnOrdinal);
-           
         }
+
+        /**
+         * this method advances the task to the next column
+         */
+        public void advanceTask(string email, string boardName, string taskTitle)
+        {
+            User user = userController.getUserAndLogeddin(email); // use email to get the user
+            Board board = user.hasBoardByName(boardName);
+            TaskDTO taskDto = taskDalController.GetTaskByTitle(taskTitle);
+            Task task = new Task(taskDto.Title, taskDto.Description, taskDto.DueDate, taskDto.id,
+                taskDto.BoardId, taskDto.ColumnOrdinal, taskDto.Assignee);
+            task.columnOrdinal = taskDto.ColumnOrdinal;
+            int columnOrdinal = task.GetColumnOrdinal();
+
+            if (task.GetColumnOrdinal() > 2 || columnOrdinal < 0)
+            {
+                throw new Exception(columnOrdinal + " is invalid");
+            }
+
+            if (columnOrdinal == 2)
+            {
+                throw new Exception("cannot advance task from done");
+            }
+
+
+            if (task == null)
+            {
+                throw new Exception("no such task");
+            }
+
+            if ((!email.Equals(task.Assignie)) &&
+                task.Assignie != null) // in case the user who's trying to progress the task isn't the asignee 
+            {
+                throw new Exception("user: " + email + " tried to progress task:" + task.Id +
+                                    "which he is not assigned to");
+            }
+
+            if (board.isColumnFull(task.GetColumnOrdinal() + 1)) //check column limit
+            {
+                throw new Exception("next column is full");
+            }
+
+            int oldColumnOrdinal = task.GetColumnOrdinal();
+            string newColumnOrdinal = board.getColumnName(board.getColumnNumber(task.columnOrdinal) + 1);
+            task.columnOrdinal = newColumnOrdinal;
+            int columnOrdinalAsNumber = task.GetColumnOrdinal();
+            List<Task> tasksList = board.getColumn(oldColumnOrdinal);
+            tasksList.Remove(task);
+            List<Task> newtasksList = board.getColumn(oldColumnOrdinal + 1);
+            newtasksList.Add(task);
+            taskDalController.Advance(task.Id, newColumnOrdinal);
+        }
+
 
         /// <summary>
         ///  This method deletes the data related to tasks in db.

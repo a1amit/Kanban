@@ -21,22 +21,26 @@ namespace BackendTests
 
             // GradingService gradingService = new GradingService();
             ServiceFactory sf = new ServiceFactory();
-            sf.dataService.DeleteData();
-            sf.userService.createUser("olga@gmail.com", "123456Ab");
-            sf.boardService.createBoard("board1", "olga@gmail.com");
-            sf.taskService.addTask("task1", "a", DateTime.Now, "board1", "olga@gmail.com");
-            sf.taskService.addTask("task2", "a", DateTime.Now, "board1", "olga@gmail.com");
-            sf.taskService.addTask("task3", "a", DateTime.Now, "board1", "olga@gmail.com");
-            sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 1, "olga@gmail.com");
-            sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 2, "olga@gmail.com");
-            sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 3, "olga@gmail.com");
-            sf.taskService.changeState("olga@gmail.com", "board1", 0, 2);
-            sf.taskService.changeState("olga@gmail.com", "board1", 0, 3);
-            sf.taskService.changeState("olga@gmail.com", "board1", 1, 3);
-
-            Console.WriteLine(sf.boardService.getColumn("olga@gmail.com","board1",0));
-            Console.WriteLine(sf.boardService.getColumn("olga@gmail.com", "board1", 1));
-            Console.WriteLine(sf.boardService.getColumn("olga@gmail.com", "board1", 2));
+            sf.LoadData();
+            // sf.dataService.DeleteData();
+            sf.userService.login("mail@mail.com", "Password1");
+            sf.TaskController.advanceTask("mail@mail.com", "board1", "task1");
+            // sf.dataService.DeleteData();
+            // sf.userService.createUser("olga@gmail.com", "123456Ab");
+            // sf.boardService.createBoard("board1", "olga@gmail.com");
+            // sf.taskService.addTask("task1", "a", DateTime.Now, "board1", "olga@gmail.com");
+            // sf.taskService.addTask("task2", "a", DateTime.Now, "board1", "olga@gmail.com");
+            // sf.taskService.addTask("task3", "a", DateTime.Now, "board1", "olga@gmail.com");
+            // sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 1, "olga@gmail.com");
+            // sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 2, "olga@gmail.com");
+            // sf.taskService.AssignTask("olga@gmail.com", "board1", 0, 3, "olga@gmail.com");
+            // sf.taskService.changeState("olga@gmail.com", "board1", 0, 2);
+            // sf.taskService.changeState("olga@gmail.com", "board1", 0, 3);
+            // sf.taskService.changeState("olga@gmail.com", "board1", 1, 3);
+            //
+            // Console.WriteLine(sf.boardService.getColumn("olga@gmail.com","board1",0));
+            // Console.WriteLine(sf.boardService.getColumn("olga@gmail.com", "board1", 1));
+            // Console.WriteLine(sf.boardService.getColumn("olga@gmail.com", "board1", 2));
 
             // gradingService.DeleteData();
 
@@ -245,7 +249,7 @@ namespace BackendTests
             Console.WriteLine(gs.AddBoard("olga@gmail.com", "board1"));
 
             Console.WriteLine("\n");
-            
+
             Console.WriteLine("if the user added a task, this should return: {} :");
             Console.WriteLine(gs.AddTask("olga@gmail.com", "board1", "title1", "f this s", DateTime.Now));
 

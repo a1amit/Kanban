@@ -35,6 +35,19 @@ namespace Frontend.ViewModel
             }
         }
 
+        public Response<string> AdvanceTask()
+        {
+            try
+            {
+                // return controller.AdvanceTask(UserModel.Email,Board.Name);
+                return new Response<string>();
+            }
+            catch (Exception e)
+            {
+                return new Response<string>(e.Message, null);
+            }
+        }
+
         public void RefreshTasks()
         {
             Board.RefreshTasks(controller);

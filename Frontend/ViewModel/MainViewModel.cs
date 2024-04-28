@@ -64,7 +64,6 @@ namespace Frontend.Model
             }
             catch (Exception e)
             {
-                // Message = e.Message;
                 return new Response<string>(e.Message,null);
             }
         }

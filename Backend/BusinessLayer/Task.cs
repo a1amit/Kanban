@@ -15,6 +15,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         public const string UNASSIGNED = "unassigned";
 
         private int id;
+
         public int Id
         {
             get { return id; }
@@ -22,6 +23,7 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         private string assignie;
+
         public string Assignie
         {
             get { return assignie; }
@@ -30,12 +32,14 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
 
 
         private readonly DateTime creationTime;
+
         public DateTime CreationTime
         {
             get { return creationTime; }
         }
 
         public string title;
+
         public string Title
         {
             get { return title; }
@@ -43,24 +47,25 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         }
 
         private string description;
+
         public string Description
         {
             get { return description; }
             set { description = value; }
         }
-        
+
         private DateTime dueDate;
+
         public DateTime DueDate
         {
             get { return dueDate; }
             set { dueDate = value; }
         }
 
-        [JsonIgnore]
-        public string columnOrdinal { get; set; }
+        [JsonIgnore] public string columnOrdinal { get; set; }
 
-        [JsonIgnore]
-        public int boardId { get; set; }
+
+        [JsonIgnore] public int boardId { get; set; }
 
         /// <summary>
         ///  constructor
@@ -82,8 +87,8 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
         //     this.boardId = boardId;
         //     this.assignie = "unassigned";
         // }
-
-        public Task(string title, string description, DateTime dueDate, int id, int boardId, string columnOrdinal, string assignie)
+        public Task(string title, string description, DateTime dueDate, int id, int boardId, string columnOrdinal,
+            string assignie)
         {
             this.creationTime = DateTime.Now;
             this.title = title;
@@ -92,10 +97,23 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             this.id = id;
             this.columnOrdinal = "backlog";
             this.boardId = boardId;
-            // this.assignie = "unassigned";
             this.Assignie = assignie;
             this.columnOrdinal = columnOrdinal;
         }
 
+        public int GetColumnOrdinal()
+        {
+            switch (columnOrdinal.ToLower()) // Convert to lowercase for case-insensitivity
+            {
+                case "backlog":
+                    return 0;
+                case "in progress":
+                    return 1;
+                case "done":
+                    return 2;
+                default:
+                    throw new ArgumentException("Invalid columnOrdinal value.");
+            }
+        }
     }
 }

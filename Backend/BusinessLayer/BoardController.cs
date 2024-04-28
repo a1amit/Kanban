@@ -400,6 +400,18 @@ namespace IntroSE.Kanban.Backend.BusinessLayer
             return boards[boardId].Name;
         }
 
+        public Board GetBoard(string boardName)
+        {
+            BoardDTO board = boardDalController.GetBoardByName(boardName);
+            if (board == null)
+            {
+                throw new Exception("No such board");
+            }
+
+            return new Board(boardName, board.id);
+        }
+
+
         /// <summary>
         /// This method deletes the data from board related tables 
         /// </summary>

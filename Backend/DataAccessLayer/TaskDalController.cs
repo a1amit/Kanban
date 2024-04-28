@@ -23,6 +23,45 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
+
+        public TaskDTO GetTaskByTitle(string title)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                TaskDTO result = null;
+
+                try
+                {
+                    connection.Open();
+                    command.CommandText = $"SELECT * FROM {TasksTableName} WHERE {TaskDTO.TasksTitleColumnName} = @titleVal;";
+                    SQLiteParameter titleParam = new SQLiteParameter(@"titleVal", title);
+                    command.Parameters.Add(titleParam);
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            result = ConvertReaderToObject(reader) as TaskDTO;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Fatal("Error retrieving task by title: " + ex.Message);
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+                return result;
+            }
+        }
+
+
+
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
             // TaskDTO result = new TaskDTO( reader.GetInt64(0),reader.GetString(1),reader.GetString(2), reader.GetInt32(3),reader.GetDateTime(4),reader.GetDateTime(5),reader.GetString(6),reader.GetString(7));

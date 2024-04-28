@@ -129,11 +129,12 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
         }
 
         /// <summary>
-        /// This method changes the state of task. 
+        /// This method changes the state of task.
         /// </summary>
         /// <param name="id">The id of the board in which the task is in</param>
         /// <param name="taskTitle">The title of the task of which to change state</param>
         /// <returns>The string "{}", unless an error occurs</returns>
+        [Obsolete("This method is deprecated. Please use an advanceTask instead.")]
         public string changeState(string email, string boardName, int columnOrdinal, int taskId)
         {
             try
@@ -149,6 +150,26 @@ namespace IntroSE.Kanban.Backend.ServiceLayer
                 return JsonController<string>.toJson(new Response<string>(e.Message, null));
             }
         }
+
+        /**
+         * the new changeState
+         */
+        public string advanceTask(string email, string boardName, string taskTitle, int columnOrdinal)
+        {
+            try
+            {
+                email = email.ToLower();
+                taskController.advanceTask(email, boardName, taskTitle);
+                log.Info("task: " + taskTitle + " was advanced by " + email);
+                return JsonController<string>.toJson(new Response<string>(null, null));
+            }
+            catch (Exception e)
+            {
+                log.Debug(e.Message);
+                return JsonController<string>.toJson(new Response<string>(e.Message, null));
+            }
+        }
+
 
         public string AssignTask(string email, string boardName, int columnOrdinal, int taskId, string emailAssignee)
         {

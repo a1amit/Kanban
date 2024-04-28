@@ -12,11 +12,10 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
     public class BoardDalController : DalController
     {
         private const string BoardsTableName = "Boards";
-        
+
 
         public BoardDalController() : base(BoardsTableName)
         {
-
         }
 
         public List<BoardDTO> SelectAllBoards()
@@ -26,12 +25,53 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
             return result;
         }
 
+
+        public BoardDTO GetBoardByName(string boardName)
+        {
+            using (var connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(null, connection);
+                BoardDTO result = null;
+
+                try
+                {
+                    connection.Open();
+                    SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", boardName);
+                    command.CommandText =
+                        $"SELECT * FROM {BoardsTableName} WHERE {BoardDTO.BoardsBoardNameColumnName} = @boardNameVal;";
+                    command.Parameters.Add(boardNameParam);
+
+                    using (SQLiteDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            result = ConvertReaderToObject(reader) as BoardDTO;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Fatal("Error retrieving board by name: " + ex.Message);
+                }
+                finally
+                {
+                    command.Dispose();
+                    connection.Close();
+                }
+
+                return result;
+            }
+        }
+
+
         protected override DTO ConvertReaderToObject(SQLiteDataReader reader)
         {
-            BoardDTO result = new BoardDTO(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5));
+            BoardDTO result = new BoardDTO(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2),
+                reader.GetInt32(3), reader.GetInt32(4), reader.GetInt32(5));
 
             return result;
         }
+
 
         public bool Insert(BoardDTO board)
         {
@@ -42,14 +82,16 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {BoardsTableName} ({DTO.IDColumnName} ,{BoardDTO.BoardsBoardNameColumnName},{BoardDTO.BoardsBoardOwnerIdColumnName}, {BoardDTO.BoardsBacklogLimitColumnName},{BoardDTO.BoardsInProgressLimitColumnName},{BoardDTO.BoardsDoneLimitColumnName}) " +
+                    command.CommandText =
+                        $"INSERT INTO {BoardsTableName} ({DTO.IDColumnName} ,{BoardDTO.BoardsBoardNameColumnName},{BoardDTO.BoardsBoardOwnerIdColumnName}, {BoardDTO.BoardsBacklogLimitColumnName},{BoardDTO.BoardsInProgressLimitColumnName},{BoardDTO.BoardsDoneLimitColumnName}) " +
                         $"VALUES (@idVal,@boardNameVal,@boardOwnerVal,@backlogLimitVal,@inProgressLimitVal,@doneLimitVal);";
 
                     SQLiteParameter idParam = new SQLiteParameter(@"idVal", board.id);
                     SQLiteParameter boardNameParam = new SQLiteParameter(@"boardNameVal", board.BoardName);
                     SQLiteParameter boardOwnerParam = new SQLiteParameter(@"boardOwnerVal", board.BoardOwnerId);
                     SQLiteParameter backlogLimitParam = new SQLiteParameter(@"backlogLimitVal", board.BacklogLimit);
-                    SQLiteParameter inProgressLimitParam = new SQLiteParameter(@"inProgressLimitVal", board.InProgressLimit);
+                    SQLiteParameter inProgressLimitParam =
+                        new SQLiteParameter(@"inProgressLimitVal", board.InProgressLimit);
                     SQLiteParameter doneLimitParam = new SQLiteParameter(@"doneLimitVal", board.DoneLimit);
 
                     command.Parameters.Add(idParam);
@@ -71,13 +113,14 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     command.Dispose();
                     connection.Close();
-
                 }
+
                 return res > 0;
             }
         }
 
-        public bool setColumnLimit(int boardId, string columnName, int newlimit) //todo: change to "update" function in DALC
+        public bool
+            setColumnLimit(int boardId, string columnName, int newlimit) //todo: change to "update" function in DALC
         {
             using (var connection = new SQLiteConnection(_connectionString))
             {
@@ -88,17 +131,17 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                     connection.Open();
                     command.CommandText =
                         $"UPDATE {BoardsTableName} SET {columnName} = @newlimit Where id = @boardid; ";
-        
-        
+
+
                     SQLiteParameter boardidParam = new SQLiteParameter(@"boardid", boardId);
                     // SQLiteParameter columnnameParam = new SQLiteParameter(@"columnname", columnName);
                     SQLiteParameter newlimitParam = new SQLiteParameter(@"newlimit", newlimit);
-        
+
                     command.Parameters.Add(boardidParam);
                     // command.Parameters.Add(columnnameParam);
                     command.Parameters.Add(newlimitParam);
-        
-        
+
+
                     command.Prepare();
                     res = command.ExecuteNonQuery();
                 }
@@ -110,8 +153,8 @@ namespace IntroSE.Kanban.Backend.DataAccessLayer
                 {
                     command.Dispose();
                     connection.Close();
-        
                 }
+
                 return res > 0;
             }
         }

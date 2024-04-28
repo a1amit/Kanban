@@ -67,7 +67,19 @@ namespace Frontend.View
 
         private void ProgressTask_Click(object sender, RoutedEventArgs e)
         {
+            Response<string> response = viewTasksViewModel.AdvanceTask();
+            string returnValue = (string)response.ReturnValue;
 
+            if (response.ErrorMessage == null)
+            {
+                MessageBox.Show("task was advanced successfully", "Success", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                viewTasksViewModel.RefreshTasks();
+            }
+            else
+            {
+                MessageBox.Show(response.ErrorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
     }

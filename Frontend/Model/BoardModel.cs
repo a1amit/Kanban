@@ -52,16 +52,19 @@ namespace Frontend.Model
             this.name = boardName;
 
             List<Task> backlogList = (List<Task>)(bc.getColumn(userModel.Email, this.name, 0).ReturnValue);
+
             backlog = new ObservableCollection<TaskModel>(backlogList.Select((c, i) =>
                 new TaskModel(bc, backlogList[i].title, backlogList[i].Description, backlogList[i].DueDate,
                     backlogList[i].Assignie)));
 
             List<Task> inProgressList = (List<Task>)(bc.getColumn(userModel.Email, this.name, 1).ReturnValue);
+
             inProgress = new ObservableCollection<TaskModel>(inProgressList.Select((c, i) =>
                 new TaskModel(bc, inProgressList[i].title, inProgressList[i].Description, inProgressList[i].DueDate,
                     inProgressList[i].Assignie)));
 
             List<Task> doneList = (List<Task>)(bc.getColumn(userModel.Email, this.name, 2).ReturnValue);
+
             done = new ObservableCollection<TaskModel>(doneList.Select((c, i) =>
                 new TaskModel(bc, doneList[i].title, doneList[i].Description, doneList[i].DueDate,
                     doneList[i].Assignie)));
